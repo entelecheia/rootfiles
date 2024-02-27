@@ -2,14 +2,14 @@ site_name: Dotfiles
 site_url: https://rootfiles.entelecheia.ai
 site_author: Young Joon Lee <entelecheia@hotmail.com>
 site_description: >-
-  Dotfiles are configuration files that are used to customize your shell and other applications. Dotfiles are a great way to standardize your development environment. You can use the same rootfiles in your local development environment, in your CI/CD pipeline, and in your production environment.
+  Effortlessly configure and replicate consistent root system environments for development efficiency.
 # Repository
 repo_name: entelecheia/rootfiles
 repo_url: https://github.com/entelecheia/rootfiles
 edit_uri: edit/main/docs/
 
 # Copyright
-copyright: Copyright &copy; 2022 - 2023 Young Joon Lee
+copyright: Copyright &copy; 2024 Young Joon Lee
 
 plugins:
   - search
@@ -71,20 +71,3 @@ extra:
     property: G-VMN7QWCMSV
 nav:
   - Home: index.md
-  - Features: features.md
-  - Bootstrap: bootstrap.md
-  - Usage:
-    - usage/index.md
-    - Configuration: usage/configuration.md
-    - Update: usage/update.md
-    - Aliases: usage/aliases.md
-    - Environment Variables: usage/envs.md
-    - Dotdrop: usage/dotdrop.md
-    - GitHub: usage/github.md
-    - Dockerfiles: usage/dockerfiles.md
-    - SSH, GPG, and AGE: usage/ssh-gpg-age.md
-    - SOPS: usage/sops.md
-    - Pass and Passage: usage/pass.md
-    - Doppler: usage/doppler.md
-  - Packages: packages.md
-  - References: references.md
