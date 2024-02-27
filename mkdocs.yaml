@@ -1,0 +1,90 @@
+site_name: Dotfiles
+site_url: https://rootfiles.entelecheia.ai
+site_author: Young Joon Lee <entelecheia@hotmail.com>
+site_description: >-
+  Dotfiles are configuration files that are used to customize your shell and other applications. Dotfiles are a great way to standardize your development environment. You can use the same rootfiles in your local development environment, in your CI/CD pipeline, and in your production environment.
+# Repository
+repo_name: entelecheia/rootfiles
+repo_url: https://github.com/entelecheia/rootfiles
+edit_uri: edit/main/docs/
+
+# Copyright
+copyright: Copyright &copy; 2022 - 2023 Young Joon Lee
+
+plugins:
+  - search
+
+markdown_extensions:
+  - markdown_include.include:
+      base_path: .
+  - pymdownx.arithmatex:
+      generic: true
+  - admonition
+  - pymdownx.caret
+  - pymdownx.details
+  # - pymdownx.emoji:
+  #     emoji_generator: "!!python/name:materialx.emoji.to_svg"
+  #     emoji_index: "!!python/name:materialx.emoji.twemoji"
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.snippets
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: "!!python/name:pymdownx.superfences.fence_code_format"
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+theme:
+  name: material
+  favicon: https://assets.entelecheia.ai/favicon.png # favicon: Path to the favicon image
+  logo: https://assets.entelecheia.ai/favicon.png # logo: Path to the book logo
+  palette:
+    scheme: slate
+  features:
+    - navigation.expand
+    - navigation.indexes
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    # - content.tabs.link
+    - content.tooltips
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+
+extra:
+  analytics:
+    provider: google
+    property: G-VMN7QWCMSV
+nav:
+  - Home: index.md
+  - Features: features.md
+  - Bootstrap: bootstrap.md
+  - Usage:
+    - usage/index.md
+    - Configuration: usage/configuration.md
+    - Update: usage/update.md
+    - Aliases: usage/aliases.md
+    - Environment Variables: usage/envs.md
+    - Dotdrop: usage/dotdrop.md
+    - GitHub: usage/github.md
+    - Dockerfiles: usage/dockerfiles.md
+    - SSH, GPG, and AGE: usage/ssh-gpg-age.md
+    - SOPS: usage/sops.md
+    - Pass and Passage: usage/pass.md
+    - Doppler: usage/doppler.md
+  - Packages: packages.md
+  - References: references.md

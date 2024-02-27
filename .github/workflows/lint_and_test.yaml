@@ -1,0 +1,44 @@
+name: lint & test
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  # pull_request:
+  #   branches: [main]
+  # push:
+  #   branches: [main]
+  #   paths:
+  #     - "scripts/**"
+  #     - "chezmoi/**"
+  #     - "rootmoi/**"
+  #     - "docs/install"
+  #     - ".github/workflows/lint_and_test.yaml"
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        variant: [devcontainer, wsl, gnome]
+        os: [ubuntu-22.04]
+        # exclude:
+        include:
+          - variant: devcontainer
+            os: ubuntu-20.04
+          - variant: darwin
+            os: macos-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: install dependencies for MacOS
+        if: matrix.variant == 'darwin'
+        run: |
+          brew install coreutils
+          echo "$PWD"
+
+      - name: Run tests
+        run: |
+          scripts/test_for_ci.sh --variant "${{ matrix.variant }}" --os "${{ matrix.os }}"

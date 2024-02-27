@@ -1,0 +1,15 @@
+#!/bin/bash
+# {{ template "scripts-library" }}
+# {{ template "remove-files-library" }}
+log_task "Rootmoi: 30. Removing unwanted files"
+
+# This is a workaround for the following issue:
+# https://github.com/twpayne/chezmoi/discussions/1789#discussioncomment-1920082
+
+readonly unwanted_files=(
+  # {{ if not .system.is_gnome }}
+  /usr/bin/docker-credential-secretservice
+  # {{ end }}
+)
+
+remove_files "${unwanted_files[@]}"
