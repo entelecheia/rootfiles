@@ -25,8 +25,8 @@ and "help wanted" is open to whoever wants to implement it.
 
 ## Write Documentation
 
-Dotfiles could always use more documentation, whether as part of the
-official Dotfiles docs, in docstrings, or even on the web in blog posts,
+Rootfiles could always use more documentation, whether as part of the
+official Rootfiles docs, in docstrings, or even on the web in blog posts,
 articles, and such.
 
 ## Submit Feedback
@@ -42,7 +42,7 @@ If you are proposing a feature:
 
 ## Get Started
 
-Ready to contribute? Here's how to set up `Dotfiles` for local development.
+Ready to contribute? Here's how to set up `Rootfiles` for local development.
 
 1. Fork the repo on GitHub.
 2. Clone your fork locally.
@@ -52,4 +52,4 @@ Ready to contribute? Here's how to set up `Dotfiles` for local development.
 
 ## Code of Conduct
 
-Please note that the Dotfiles project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project you agree to abide by its terms.
+Please note that the Rootfiles project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project you agree to abide by its terms.
