@@ -6,7 +6,7 @@ DATASPACE_NAME=${DATASPACE_NAME:-"{{ .dataspace.name }}"}
 DATASPACE_LOCATION=${DATASPACE_LOCATION:-"{{ .dataspace.location }}"}
 NON_ROOT_USER=${NON_ROOT_USER:-"{{ .non_root_user }}"}
 
-SYMLINK_DATASPACE_DIR=${SYMLINK_DATASPACE_DIR:-"{{ .dataspace.colab_drive }}"}
+SYMLINK_DATASPACE_DIR=${SYMLINK_DATASPACE_DIR:-"{{ .dataspace.symlink_dataspace_dir }}"}
 SYMLINK_DATASPACE=${SYMLINK_DATASPACE:-"{{ .dataspace.symlink_dataspace }}"}
 MOVE_EXISTING=${MOVE_EXISTING:-"{{ .dataspace.move_existing }}"}
 DATASPACE_DIR="${DATASPACE_LOCATION}/${DATASPACE_NAME}"
