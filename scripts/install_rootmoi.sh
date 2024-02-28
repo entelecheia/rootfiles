@@ -51,7 +51,7 @@ fi
 # shellcheck disable=SC2312
 script_dir="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
 # set source_dir as the parent of script_dir
-source_dir="$(dirname -- "${script_dir}")"
+source_dir="$(dirname -- "${script_dir}")/rootmoi"
 dest_dir="/"
 
 set -- init --source="${source_dir}" --destination="${dest_dir}"
