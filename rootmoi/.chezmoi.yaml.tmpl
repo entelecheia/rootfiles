@@ -216,7 +216,7 @@ status:
 
 # {{- /* Here we "export" the variables, so we can access them outside this file */ -}} #
 data:
-  non_root_user: {{ $non_root_user }}
+  non_root_user: {{ $non_root_user | quote }}
   editor: "vi"
   python:
     version: {{ $python_version | quote }}
