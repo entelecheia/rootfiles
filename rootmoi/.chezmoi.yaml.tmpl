@@ -81,8 +81,6 @@
 # {{-   $vlan_address = .network.vlan_address -}}
 # {{- end -}}
 
-# {{- $dotfiles_version := or (env "DOTFILES_VERSION") "N/A" -}}
-
 # {{- if $interactive -}}
 # {{-   $question := "❔ Do you want to upgrade packages if needed" -}}
 # {{-   $upgrade_packages = promptBool $question $upgrade_packages -}}
