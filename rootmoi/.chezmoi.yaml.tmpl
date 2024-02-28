@@ -40,7 +40,7 @@
 # {{-   $hostname = .system.hostname -}}
 # {{- end -}}
 
-# {{- $non_root_user:= "" -}}
+# {{- $non_root_user:= "sudoer1" -}}
 # {{- if and (hasKey . "non_root_user") .non_root_user -}}
 # {{-   $non_root_user = .non_root_user -}}
 # {{- end -}}
