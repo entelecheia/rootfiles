@@ -1,0 +1,27 @@
+#!/bin/bash
+# {{- template "scripts-library" }}
+# {{- template "package-library" }}
+log_task "Rootmoi: 60. Creating Virutal LAN"
+
+create_vlan_interface="{{ .network.create_vlan_interface }}"
+vlan_interface_name="{{ .network.vlan_interface_name }}"
+vlan_address="{{ .network.vlan_address }}"
+
+if [[ -n "${create_vlan_interface}" ]]; then
+  log_task "Creating VLAN interface: ${vlan_interface_name}"
+
+  NETDEV_FILE="/etc/systemd/network/${vlan_interface_name}.netdev"
+  echo "[NetDev]" > "${NETDEV_FILE}"
+  echo "Name=${vlan_interface_name}" >> "${NETDEV_FILE}"
+  echo "Kind=dummy" >> "${NETDEV_FILE}"
+
+  NETWORK_FILE="/etc/systemd/network/${vlan_interface_name}.network"
+  echo "[Match]" > "${NETWORK_FILE}"
+  echo "Name=${vlan_interface_name}" >> "${NETWORK_FILE}"
+  echo "" >> "${NETWORK_FILE}"
+  echo "[Network]" >> "${NETWORK_FILE}"
+  echo "Address=${vlan_address}" >> "${NETWORK_FILE}"
+
+  log_task "Reloading systemd-networkd"
+  c systemctl restart systemd-networkd
+fi
