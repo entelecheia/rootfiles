@@ -55,20 +55,6 @@
 # {{- end -}}
 # {{- $docker_image_dir := joinPath .chezmoi.homeDir ".local/share/dockerfiles" -}}
 
-# {{- $use_ngrok := false -}}
-# {{- if eq (env "DOTFILES_USE_NGROK") "true" "True" "TRUE" "1" -}}
-# {{-   $use_ngrok = true -}}
-# {{- end -}}
-# {{- $ngrok_authtoken := or (env "NGROK_AUTHTOKEN") "" -}}
-# {{- if and (hasKey . "ngrok") (hasKey .ngrok "authtoken") -}}
-# {{-   $ngrok_authtoken = .ngrok.authtoken -}}
-# {{- end -}}
-# {{- $ngrok_ssh_port := or (env "NGROK_SSH_PORT") "22" -}}
-# {{- if and (hasKey . "ngrok") (hasKey .ngrok "ssh_port") -}}
-# {{-   $ngrok_ssh_port = .ngrok.ssh_port -}}
-# {{- end -}}
-# {{- $ngrok_config_file := or (env "NGROK_CONFIG") (joinPath .chezmoi.homeDir ".config/ngrok/ngrok.yml") -}}
-
 # {{- $use_cloudflared := false -}}
 # {{- if eq (env "DOTFILES_USE_CLOUDFLARED") "true" "True" "TRUE" "1" -}}
 # {{-   $use_cloudflared = true -}}
@@ -194,47 +180,6 @@
 # {{-   writeToStdout "❎  cloudflared disabled\n" -}}
 # {{- end -}}
 
-# {{- if $use_ngrok -}}
-# {{-   writeToStdout "✅  ngrok enabled\n" -}}
-# {{- else -}}
-# {{-   writeToStdout "❎  ngrok disabled\n" -}}
-# {{- end -}}
-# {{- if and $interactive $use_ngrok -}}
-# {{-   $question := "❔ What is your ngrok authtoken" -}}
-# {{-   $answer := "" -}}
-# {{-   if $ngrok_authtoken -}}
-# {{-     $answer = promptString $question $ngrok_authtoken -}}
-# {{-   else -}}
-# {{-     $answer = promptString $question -}}
-# {{-   end -}}
-# {{-   $ngrok_authtoken = $answer -}}
-# {{- end -}}
-# {{- if $use_ngrok -}}
-# {{-   if $ngrok_authtoken -}}
-# {{-     writeToStdout "✅  ngrok authtoken set as '***'\n" -}}
-# {{-   else -}}
-# {{-     writeToStdout "❎  ngrok authtoken not set\n" -}}
-# {{-   end -}}
-# {{- end -}}
-
-# {{- if and $interactive $use_ngrok -}}
-# {{-   $question := "❔ What is your ssh service port for ngrok" -}}
-# {{-   $answer := "" -}}
-# {{-   if $ngrok_ssh_port -}}
-# {{-     $answer = promptString $question $ngrok_ssh_port -}}
-# {{-   else -}}
-# {{-     $answer = promptString $question -}}
-# {{-   end -}}
-# {{-   $ngrok_ssh_port = $answer -}}
-# {{- end -}}
-# {{- if $use_ngrok -}}
-# {{-   if $ngrok_ssh_port -}}
-# {{-     writeToStdout (printf "✅  ngrok ssh port set as '%s'\n" $ngrok_ssh_port) -}}
-# {{-   else -}}
-# {{-     writeToStdout "❎  ngrok ssh port not set\n" -}}
-# {{-   end -}}
-# {{- end -}}
-
 # {{- $pkgs_user := "" -}}
 # {{- if $use_ngrok -}}
 # {{-   $pkgs_user = printf "%s ngrok" $pkgs_user -}}
@@ -290,11 +235,6 @@ data:
     cpu:
       cores: {{ $cpuCores }}
       threads: {{ $cpuThreads }}
-  ngrok:
-    enabled: {{ $use_ngrok }}
-    authtoken: {{ $ngrok_authtoken | quote }}
-    config_file: {{ $ngrok_config_file | quote }}
-    ssh_port: {{ $ngrok_ssh_port | quote }}
   cloudflared:
     enabled: {{ $use_cloudflared }}
     config_file: {{ $cloudflared_config_file | quote }}
