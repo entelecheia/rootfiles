@@ -92,7 +92,6 @@
 # {{- writeToStdout "---\n" -}}
 # {{- writeToStdout "🖥️  Information found in your system environment variables:\n" -}}
 # {{- writeToStdout (printf "🏠  SYSTEM_HOSTNAME: %s\n" $hostname) -}}
-# {{- writeToStdout (printf "📎  DOTFILES_MINIMUM: %t\n" $minimum) -}}
 # {{- writeToStdout (printf "🔬  DOTFILES_VERBOSE: %t\n" ($verbose | not | not)) -}}
 # {{- writeToStdout "---\n" -}}
 
@@ -171,7 +170,7 @@
 # {{-   writeToStdout (printf "✅  Worksapce root symlinked to '%s'\n" $workspace_home) -}}
 # {{- $container_dir := joinPath $workspace_home "containers" -}}
 
-# {{- if and $interactive ($minimum | not) -}}
+# {{- if $interactive -}}
 # {{-   $question := "❔ Do you want to symlink workspace to colab default google drive directory to maintain persistence across sessions" -}}
 # {{-   $symlink_colab_workspace = promptBool $question $symlink_colab_workspace -}}
 # {{- end -}}
@@ -241,7 +240,7 @@
 # {{-   $pkgs_user = printf "%s cloudflared" $pkgs_user -}}
 # {{- end -}}
 
-# {{- if and $interactive ($minimum | not) -}}
+# {{- if $interactive -}}
 # {{-   $question := "❔ What are the additional packages to install (input as space separated list, ex: git curl)" -}}
 # {{-   $answer := "" -}}
 # {{-   if $pkgs_user -}}
@@ -284,19 +283,12 @@ data:
     hostname: {{ $hostname | quote }}
     is_wsl: {{ $wsl }}
     is_devcontainer: {{ $devcontainer }}
-    is_minimum: {{ $minimum }}
     is_gnome: {{ $gnome }}
     is_interactive: {{ $interactive }}
-    is_sudoer: {{ $sudoer }}
-    apply_rootmoi: {{ and $apply_rootmoi $sudoer }}
     uname_arch: {{ output "uname" "-m" | trim | quote }}
     cpu:
       cores: {{ $cpuCores }}
       threads: {{ $cpuThreads }}
-    # {{ if $wsl }}
-    winhome: {{ $winhome | quote }}
-    winhome_symlink: {{ $winhome_symlink | quote }}
-  # {{ end }}
   docker:
     repo: {{ $dockerfiles_repo | quote }}
     share_dir: {{ $dockerfiles_share_dir | quote }}
