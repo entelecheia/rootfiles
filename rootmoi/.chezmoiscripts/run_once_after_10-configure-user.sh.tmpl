@@ -2,30 +2,21 @@
 # {{ template "scripts-library" }}
 log_task "Rootmoi: 10. Configuring user"
 
-# # Configure passwordless sudo
-# SUDOERS_FILE="/etc/sudoers"
+# create user if not exists
+if ! getent passwd '{{ .non_root_user }}' >/dev/null; then
+  log_task "Creating user '{{ .non_root_user }}'"
+  c useradd -m '{{ .non_root_user }}'
 
-# # Change USERNAME to the desired username
-# USERNAME="{{ .non_root_user }}"
+  # Set default password for user same as username
+  echo '{{ .non_root_user }}:{{ .non_root_user }}' | chpasswd
 
-# # Check if the user already has sudo privileges in the sudoers file
-# if ! grep -q "^$USERNAME\s\+ALL=" $SUDOERS_FILE; then
-#     log_task 'Configuring passwordless sudo for {{ .non_root_user }}'
-#     # Add the user with sudo privileges
-#     c echo "$USERNAME ALL=(ALL:ALL) ALL" >> $SUDOERS_FILE
-
-#     # Check syntax of the new sudoers file
-#     if visudo -c; then
-#         log_info "User $USERNAME added successfully."
-#     else
-#         # If there's a syntax error, remove the last line
-#         c sed -i '$ d' $SUDOERS_FILE
-#         log_error "Error: Syntax error after adding the user to the sudoers file."
-#         exit 1
-#     fi
-# else
-#     echo "User $USERNAME already has sudo privileges."
-# fi
+  # Configure user's shell
+  zsh_path="/bin/zsh"
+  if ! getent passwd '{{ .non_root_user }}' | cut -d : -f 7- | grep -q "^${zsh_path}$"; then
+    log_task "Configuring ZSH as default shell"
+    c usermod --shell "${zsh_path}" '{{ .chezmoi.username }}'
+  fi
+fi
 
 file='/etc/sudoers.d/{{ .non_root_user }}'
 file_contents='{{ .non_root_user }}  ALL=(ALL) NOPASSWD:ALL'
