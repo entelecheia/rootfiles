@@ -266,14 +266,6 @@ data:
     cpu:
       cores: {{ $cpuCores }}
       threads: {{ $cpuThreads }}
-  cloudflared:
-    enabled: {{ $use_cloudflared }}
-    config_file: {{ $cloudflared_config_file | quote }}
-    config_template: {{ $cloudflared_config_template | quote }}
-    tunnel_hostname: {{ $cloudflared_tunnel_hostname | quote }}
-    tunnel_name: {{ $cloudflared_tunnel_name | quote }}
-    tunnel_uuid: {{ $cloudflared_tunnel_uuid | quote }}
-    credentials_file: {{ $cloudflared_credentials_file | quote }}
   install_packages:
     user: {{ $pkgs_user }}
   dataspace:
