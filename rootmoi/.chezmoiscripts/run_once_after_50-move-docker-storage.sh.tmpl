@@ -10,7 +10,7 @@ c systemctl stop docker
 
 if [[ ! -L "${DEFAULT_DOCKER_IMAGE_DIR}" ]]; then
     log_task "Backing up existing Docker directory (${DEFAULT_DOCKER_IMAGE_DIR})"
-    c cp /var/lib/docker /var/lib/docker.bak
+    c cp -r /var/lib/docker /var/lib/docker.bak
 
     if [[ ! -d "${DOCKER_IMAGE_DIR}" ]]; then
         log_task "Creating new Docker directory (${DOCKER_IMAGE_DIR})"
