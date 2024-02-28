@@ -244,6 +244,7 @@ data:
     user: {{ $pkgs_user }}
   dataspace:
     name: {{ $dataspace_name | quote }}
+    location: {{ $dataspace_location | quote }}
     root: {{ $datapace_root | quote }}
     move_existing: true
     symlink_dataspace_dir: "/data"
