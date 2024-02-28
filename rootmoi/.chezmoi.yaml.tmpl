@@ -266,12 +266,7 @@ data:
       cores: {{ $cpuCores }}
       threads: {{ $cpuThreads }}
   docker:
-    repo: {{ $dockerfiles_repo | quote }}
     share_dir: {{ $dockerfiles_share_dir | quote }}
-    global_env_filename: {{ $docker_global_env_filename | quote }}
-    secret_env_filename: {{ $docker_secret_env_filename | quote }}
-    username: {{ $docker_username | quote }}
-    container_registry: {{ $docker_container_registry | quote }}
   ngrok:
     enabled: {{ $use_ngrok }}
     authtoken: {{ $ngrok_authtoken | quote }}
