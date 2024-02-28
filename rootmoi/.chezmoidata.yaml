@@ -87,6 +87,10 @@ packages:
   - name: openssh-server
     apt: true
     scope: full
+  - name: pass
+    apt: true
+    brew: true
+    scope: system
   - name: procps
     apt: true
     scope: minimal
