@@ -137,17 +137,6 @@
 # {{- end -}}
 # {{- writeToStdout (printf "✅  Hostname set as '%s'\n" $hostname) -}}
 
-# {{- if $workspace_existing -}}
-# {{- if $wsl -}}
-# {{-   if eq $winhome_existing $winhome -}}
-# {{-     $workspace_location = $workspace_existing -}}
-# {{-   else -}}
-# {{-     $workspace_location = $winhome -}}
-# {{-   end -}}
-# {{- else -}}
-# {{-   $workspace_location = $workspace_existing -}}
-# {{- end -}}
-# {{- end -}}
 # {{- if $interactive -}}
 # {{-   $question := "❔ Where do you want to put your workspace" -}}
 # {{-   $answer := "" -}}
