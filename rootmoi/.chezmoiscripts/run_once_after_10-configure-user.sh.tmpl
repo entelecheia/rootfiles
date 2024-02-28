@@ -14,7 +14,7 @@ if ! getent passwd '{{ .non_root_user }}' >/dev/null; then
   zsh_path="/bin/zsh"
   if ! getent passwd '{{ .non_root_user }}' | cut -d : -f 7- | grep -q "^${zsh_path}$"; then
     log_task "Configuring ZSH as default shell"
-    c usermod --shell "${zsh_path}" '{{ .chezmoi.username }}'
+    c usermod --shell "${zsh_path}" '{{ .non_root_user }}'
   fi
 fi
 
