@@ -45,6 +45,10 @@
 # {{-   $non_root_user = .non_root_user -}}
 # {{- end -}}
 
+# {{- $python_version := "3.10" -}}
+# {{- if and (hasKey . "python") (hasKey .python "version") .python.version -}}
+# {{-   $python_version = .python.version -}}
+# {{- end -}}
 
 # {{- $dataspace_location := "/raid/" -}}
 # {{- $dataspace_name := "data" -}}
@@ -126,6 +130,28 @@
 # {{-   end -}}
 # {{- end -}}
 # {{- writeToStdout (printf "✅  Hostname set as '%s'\n" $hostname) -}}
+
+# {{- if $interactive -}}
+# {{-   range $i := until 99 -}}
+# {{-     $question := "❔ What version of Python do you want to use" -}}
+# {{-     $answer := "" -}}
+# {{-     if $python_version -}}
+# {{-       $answer = promptString $question $python_version -}}
+# {{-     else -}}
+# {{-       $answer = promptString $question -}}
+# {{-     end -}}
+# {{-     if regexMatch "^\d+\.\d+$" $answer -}}
+# {{-       $python_version = $answer -}}
+# {{-       break -}}
+# {{-     end -}}
+# {{-     writeToStdout (printf "❌ '%s' is an invalid python version\n" $answer) -}}
+# {{-     if eq $i 98 -}}
+# {{-       writeToStdout "❌ ERROR: maximum tries exceeded\n" -}}
+# {{-       exit 1 -}}
+# {{-     end -}}
+# {{-   end -}}
+# {{- end -}}
+# {{- writeToStdout (printf "✅  Python version set as '%s'\n" $python_version) -}}
 
 # {{- if $interactive -}}
 # {{-   range $i := until 99 -}}
@@ -220,6 +246,8 @@ status:
 data:
   non_root_user: {{ $non_root_user }}
   editor: "vi"
+  python:
+    version: {{ $python_version }}
   system:
     upgrade_packages: {{ $upgrade_packages }}
     verbose: {{ $verbose }}
