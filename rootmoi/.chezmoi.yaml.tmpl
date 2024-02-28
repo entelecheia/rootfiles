@@ -51,13 +51,22 @@
 # {{- end -}}
 
 # {{- $dataspace_location := "/raid" -}}
+# {{- if and (hasKey . "dataspace") (hasKey .dataspace "location") -}}
+# {{-   $dataspace_location = .dataspace.location -}}
+# {{- end -}}
 # {{- $dataspace_name := "data" -}}
+# {{- if and (hasKey . "dataspace") (hasKey .dataspace "name") -}}
+# {{-   $dataspace_name = .dataspace.name -}}
+# {{- end -}}
 # {{- $datapace_root := joinPath $dataspace_location $dataspace_name -}}
 # {{- $symlink_dataspace := false -}}
 # {{- if and (hasKey . "dataspace") (hasKey .dataspace "symlink_dataspace") -}}
 # {{-   $symlink_dataspace = .dataspace.symlink_dataspace -}}
 # {{- end -}}
-# {{- $docker_image_dir := joinPath .chezmoi.homeDir ".local/share/dockerfiles" -}}
+# {{- $docker_image_dir := "/raid/docker" -}}
+# {{- if and (hasKey . "dataspace") (hasKey .dataspace "docker_image_dir") -}}
+# {{-   $docker_image_dir = .dataspace.docker_image_dir -}}
+# {{- end -}}
 
 # {{- $use_cloudflared := false -}}
 # {{- if eq (env "DOTFILES_USE_CLOUDFLARED") "true" "True" "TRUE" "1" -}}
