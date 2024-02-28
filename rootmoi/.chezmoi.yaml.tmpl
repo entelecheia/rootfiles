@@ -91,11 +91,6 @@
 # {{- $dotfiles_version := or (env "DOTFILES_VERSION") "N/A" -}}
 # {{- writeToStdout "---\n" -}}
 # {{- writeToStdout "🖥️  Information found in your system environment variables:\n" -}}
-# {{- if $sudoer -}}
-# {{- writeToStdout (printf "🤖  DOTFILES CONFIGURATION (Version: %s) [for SUDOER]\n\n" $dotfiles_version) -}}
-# {{- else -}}
-# {{- writeToStdout (printf "🤖  DOTFILES CONFIGURATION (Version: %s) [for NON-SUDOER]\n\n" $dotfiles_version) -}}
-# {{- end -}}
 # {{- writeToStdout (printf "🏠  SYSTEM_HOSTNAME: %s\n" $hostname) -}}
 # {{- writeToStdout (printf "📎  DOTFILES_MINIMUM: %t\n" $minimum) -}}
 # {{- writeToStdout (printf "🔬  DOTFILES_VERBOSE: %t\n" ($verbose | not | not)) -}}
