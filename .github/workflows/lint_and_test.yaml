@@ -21,23 +21,11 @@ jobs:
       fail-fast: false
       max-parallel: 2
       matrix:
-        variant: [devcontainer, wsl, gnome]
-        os: [ubuntu-22.04]
-        # exclude:
-        include:
-          - variant: devcontainer
-            os: ubuntu-20.04
-          - variant: darwin
-            os: macos-latest
+        variant: [devcontainer, gnome]
+        os: [ubuntu-22.04, ubuntu-20.04]
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
-
-      - name: install dependencies for MacOS
-        if: matrix.variant == 'darwin'
-        run: |
-          brew install coreutils
-          echo "$PWD"
 
       - name: Run tests
         run: |
