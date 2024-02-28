@@ -209,12 +209,6 @@
 # {{-   end -}}
 # {{- end -}}
 
-# {{- if $use_python_tools -}}
-# {{-   writeToStdout "✅  python tools enabled\n" -}}
-# {{- else -}}
-# {{-   writeToStdout "❎  python tools disabled\n" -}}
-# {{- end -}}
-
 # {{- if $use_ngrok -}}
 # {{-   $pkgs_user = printf "%s ngrok" $pkgs_user -}}
 # {{- end -}}
