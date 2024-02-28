@@ -1,0 +1,126 @@
+ROOTFILES_VERSION: 0.0.0
+packages:
+  - name: build-essential
+    apt: true
+    scope: minimal
+  - name: bzip2
+    apt: true
+    scope: minimal
+  - name: cloudflared
+    script: true
+    script_cmd: install-cloudflared
+    scope: optional
+  - name: containerd.io
+    apt: true
+    scope: system
+  - name: coreutils
+    scope: minimal
+  - name: direnv
+    apt: true
+    scope: minimal
+  - name: docker-ce
+    apt: true
+    apt_remove: docker
+    keyring_file: docker.gpg
+    keyring_url: https://download.docker.com/linux/ubuntu/gpg
+    source_list_file: docker.list
+    source_list_line: "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+    scope: system
+  - name: docker-ce-cli
+    apt: true
+    scope: system
+  - name: docker-compose-plugin
+    apt: true
+    scope: system
+  - name: file
+    apt: true
+    scope: minimal
+  - name: findutils
+    scope: minimal
+  - name: fzf
+    apt: true
+    scope: minimal
+    allow_upgrade: true
+  - name: gh
+    apt: true
+    keyring_file: githubcli-archive-keyring.gpg
+    keyring_url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+    source_list_file: github-cli.list
+    source_list_line: "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"
+    scope: minimal
+    allow_upgrade: true
+  - name: git-lfs
+    apt: true
+    scope: minimal
+    repository_script: https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh
+    source_list_file: github_git-lfs.list
+    allow_upgrade: true
+  - name: gnupg
+    scope: minimal
+  - name: inxi
+    apt: true
+    scope: system
+  - name: jq
+    apt: true
+    scope: minimal
+  - name: locales
+    apt: true
+    scope: minimal
+  - name: locales-all
+    apt: true
+    scope: minimal
+  - name: lsb-release
+    apt: true
+    scope: minimal
+  - name: neofetch
+    apt: true
+    scope: system
+  - name: nvidia-container-toolkit
+    apt: true
+    keyring_file: nvidia-container-toolkit-keyring.gpg
+    keyring_url: https://nvidia.github.io/libnvidia-container/gpgkey
+    source_list_file: nvidia-container-toolkit.list
+    # ISSUE: use ubuntu18.04 in the .list files for all later Ubuntu versions.
+    # ref: https://github.com/NVIDIA/nvidia-container-toolkit/issues/94
+    source_list_line: "deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://nvidia.github.io/libnvidia-container/stable/$(. /etc/os-release;echo $ID'18.04/$(ARCH)') /"
+    scope: system
+  - name: openssh-server
+    apt: true
+    scope: full
+  - name: procps
+    apt: true
+    scope: minimal
+  - name: python3-dev
+    apt: true
+    scope: full
+  - name: python3-pip
+    apt: true
+    scope: full
+  - name: python3-setuptools
+    apt: true
+    scope: full
+  - name: python3-testresources
+    apt: true
+    scope: full
+  - name: python3-venv
+    apt: true
+    scope: full
+  - name: tree
+    apt: true
+    scope: minimal
+  - name: tmux
+    apt: true
+    scope: minimal
+    allow_upgrade: true
+  - name: tzdata
+    apt: true
+    scope: minimal
+  - name: unzip
+    apt: true
+    scope: minimal
+  - name: vim
+    apt: true
+    scope: minimal
+  - name: zip
+    apt: true
+    scope: minimal
