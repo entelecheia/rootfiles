@@ -132,7 +132,6 @@
 # {{- writeToStdout (printf "✅  Hostname set as '%s'\n" $hostname) -}}
 
 # {{- if $interactive -}}
-# {{-   range $i := until 99 -}}
 # {{-     $question := "❔ What version of Python do you want to use" -}}
 # {{-     $answer := "" -}}
 # {{-     if $python_version -}}
@@ -140,16 +139,6 @@
 # {{-     else -}}
 # {{-       $answer = promptString $question -}}
 # {{-     end -}}
-# {{-     if regexMatch "^\d+\.\d+$" $answer -}}
-# {{-       $python_version = $answer -}}
-# {{-       break -}}
-# {{-     end -}}
-# {{-     writeToStdout (printf "❌ '%s' is an invalid python version\n" $answer) -}}
-# {{-     if eq $i 98 -}}
-# {{-       writeToStdout "❌ ERROR: maximum tries exceeded\n" -}}
-# {{-       exit 1 -}}
-# {{-     end -}}
-# {{-   end -}}
 # {{- end -}}
 # {{- writeToStdout (printf "✅  Python version set as '%s'\n" $python_version) -}}
 
