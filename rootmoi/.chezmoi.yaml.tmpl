@@ -151,12 +151,6 @@
 
 # {{- $workspace_root = joinPath $workspace_location $workspace_name -}}
 # {{-   writeToStdout (printf "✅  Worksapce root set as '%s'\n" $workspace_root) -}}
-# {{- if $symlink_to_home -}}
-# {{-   $workspace_home = joinPath .chezmoi.homeDir $workspace_name -}}
-# {{- else -}}
-# {{-   $workspace_home = joinPath $workspace_location $workspace_name -}}
-# {{- end -}}
-# {{-   writeToStdout (printf "✅  Worksapce root symlinked to '%s'\n" $workspace_home) -}}
 # {{- $container_dir := joinPath $workspace_home "containers" -}}
 
 # {{- if $interactive -}}
