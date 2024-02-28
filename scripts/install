@@ -1,0 +1,92 @@
+#!/bin/sh
+
+# -e: exit on error
+# -u: exit on unset variables
+set -eu
+
+log_color() {
+  color_code="$1"
+  shift
+
+  printf "\033[${color_code}m%s\033[0m\n" "$*" >&2
+}
+
+log_red() {
+  log_color "0;31" "$@"
+}
+
+log_blue() {
+  log_color "0;34" "$@"
+}
+
+log_task() {
+  log_blue "⏳" "$@"
+}
+
+log_info() {
+  log_green "💡" "$@"
+}
+
+log_manual_action() {
+  log_red "🧑‍🔧" "$@"
+}
+
+log_error() {
+  log_red "🔴" "$@"
+}
+
+error() {
+  log_error "$@"
+  exit 1
+}
+
+git_clean() {
+  path=$(realpath "$1")
+  remote="$2"
+  branch="$3"
+
+  log_task "Cleaning '${path}' with '${remote}' at branch '${branch}'"
+  git="git -C ${path}"
+  ${git} checkout -B "${branch}"
+  ${git} fetch "${remote}" "${branch}" --tags
+  # get latest tag
+  latest_tag=$(${git} describe --tags "$(${git} rev-list --tags --max-count=1)")
+  # ensure to pull the latest tag
+  ${git} fetch "${remote}" "${latest_tag}"
+  # reset to latest tag
+  ${git} reset --hard "${latest_tag}"
+  # remove all untracked files and directories
+  ${git} clean -fdx
+  unset path remote branch git
+}
+
+ROOTFILES_REPO_HOST=${ROOTFILES_REPO_HOST:-"https://github.com"}
+ROOTFILES_USER=${ROOTFILES_USER:-"entelecheia"}
+ROOTFILES_REPO="${ROOTFILES_REPO_HOST}/${ROOTFILES_USER}/rootfiles"
+ROOTFILES_BRANCH=${ROOTFILES_BRANCH:-"main"}
+ROOTFILES_DIR="/root/.rootfiles"
+
+if ! command -v git >/dev/null 2>&1; then
+  log_task "Installing git"
+  apt update --yes -qq -o=Dpkg::Use-Pty=0
+  apt install --yes -qq -o=Dpkg::Use-Pty=0 git curl wget
+fi
+
+if [ -d "${ROOTFILES_DIR}" ]; then
+  git_clean "${ROOTFILES_DIR}" "${ROOTFILES_REPO}" "${ROOTFILES_BRANCH}"
+else
+  log_task "Cloning '${ROOTFILES_REPO}' at branch '${ROOTFILES_BRANCH}' to '${ROOTFILES_DIR}'"
+  git clone --branch "${ROOTFILES_BRANCH}" "${ROOTFILES_REPO}" "${ROOTFILES_DIR}"
+  git_clean "${ROOTFILES_DIR}" "${ROOTFILES_REPO}" "${ROOTFILES_BRANCH}"
+fi
+
+if [ -f "${ROOTFILES_DIR}/scripts/install_chezmoi.sh" ]; then
+  INSTALL_SCRIPT="${ROOTFILES_DIR}/scripts/install_chezmoi.sh"
+elif [ -f "${ROOTFILES_DIR}/scripts/install_chezmoi" ]; then
+  INSTALL_SCRIPT="${ROOTFILES_DIR}/scripts/install_chezmoi"
+else
+  error "No install script found in the dotfiles."
+fi
+
+log_task "Running '${INSTALL_SCRIPT}'"
+exec "${INSTALL_SCRIPT}"

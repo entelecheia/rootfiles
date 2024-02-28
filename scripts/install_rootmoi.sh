@@ -52,8 +52,9 @@ fi
 script_dir="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
 # set source_dir as the parent of script_dir
 source_dir="$(dirname -- "${script_dir}")"
+dest_dir="/"
 
-set -- init --source="${source_dir}"
+set -- init --source="${source_dir}" --destination="${dest_dir}"
 
 if [ -n "${DOTFILES_ONE_SHOT-}" ]; then
   set -- "$@" --one-shot
@@ -65,6 +66,6 @@ if [ -n "${DOTFILES_DEBUG-}" ]; then
   set -- "$@" --debug
 fi
 
-log_task "Running 'chezmoi $*'"
+log_task "Running 'rootmoi $*'"
 # replace current process with chezmoi
 exec "${chezmoi}" "$@"
