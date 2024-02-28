@@ -181,9 +181,6 @@
 # {{- end -}}
 
 # {{- $pkgs_user := "" -}}
-# {{- if $use_ngrok -}}
-# {{-   $pkgs_user = printf "%s ngrok" $pkgs_user -}}
-# {{- end -}}
 # {{- if $use_cloudflared -}}
 # {{-   $pkgs_user = printf "%s cloudflared" $pkgs_user -}}
 # {{- end -}}
