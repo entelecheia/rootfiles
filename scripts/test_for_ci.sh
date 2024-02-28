@@ -137,29 +137,10 @@ export DOTFILES_TEST=true
 echo 'Defaults env_keep += "DOTFILES_TEST"' | sudo tee /etc/sudoers.d/env_keep
 sudo usermod -aG sudo vscode
 
-~/.dotfiles/scripts/install_chezmoi.sh
+~/.dotfiles/scripts/install_rootmoi.sh
 
 ~/.local/bin/chezmoi data
 EOF
-}
-
-run_test_darwin() {
-  local -r os="$1"
-
-  set -euxo pipefail
-
-  ${_arg_pre_script}
-
-  if [[ "${debug}" == "on" ]]; then
-    export DOTFILES_DEBUG=true
-  fi
-
-  export DOTFILES_TEST=true
-  echo 'Defaults env_keep += "DOTFILES_TEST"' | sudo tee /etc/sudoers.d/env_keep
-
-  ./scripts/install_chezmoi.sh
-
-  ~/.local/bin/chezmoi data
 }
 
 set -euo pipefail
@@ -221,10 +202,6 @@ sudo apt update --yes -qq -o=Dpkg::Use-Pty=0
 sudo apt install --yes -qq -o=Dpkg::Use-Pty=0 --no-install-recommends gnome-shell
 EOF
       )"
-      ;;
-
-    darwin)
-      run_test_darwin "${os}"
       ;;
 
     \
