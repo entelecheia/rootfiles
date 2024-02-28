@@ -8,18 +8,6 @@
   url: "https://github.com/docker/compose-switch/releases/download/v{{ template "get-github-latest-version" list "docker/compose-switch" $cache }}/docker-compose-linux-{{ .chezmoi.arch }}"
   executable: true
 
-{{ if .system.is_wsl }}
-"usr/bin/docker-credential-wincred.exe":
-  type: file
-  url: "https://github.com/docker/docker-credential-helpers/releases/download/v{{ template "get-github-latest-version" list "docker/docker-credential-helpers" $cache }}/docker-credential-wincred-v{{ template "get-github-latest-version" list "docker/docker-credential-helpers" $cache }}.windows-{{ .chezmoi.arch }}.exe"
-  executable: true
-
-"usr/local/share/gcm":
-  type: archive
-  # https://github.com/GitCredentialManager/git-credential-manager/issues/869
-  url: "https://github.com/GitCredentialManager/git-credential-manager/releases/download/v2.0.877/gcm-win-x86-2.0.877.zip"
-  exact: true
-{{ else }}
 "usr/local/share/gcm":
   type: archive
   # https://github.com/GitCredentialManager/git-credential-manager/pull/551
@@ -32,6 +20,5 @@
   url: "https://github.com/docker/docker-credential-helpers/releases/download/v{{ template "get-github-latest-version" list "docker/docker-credential-helpers" $cache }}/docker-credential-secretservice-v{{ template "get-github-latest-version" list "docker/docker-credential-helpers" $cache }}.linux-{{ .chezmoi.arch }}"
   executable: true
 {{   end }}
-{{ end }}
 
 {{ template "save-versions-and-revisions-cache" $cache -}}
