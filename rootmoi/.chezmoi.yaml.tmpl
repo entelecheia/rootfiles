@@ -82,11 +82,6 @@
 # {{- end -}}
 
 # {{- $dotfiles_version := or (env "DOTFILES_VERSION") "N/A" -}}
-# {{- writeToStdout "---\n" -}}
-# {{- writeToStdout "🖥️  Information found in your system environment variables:\n" -}}
-# {{- writeToStdout (printf "🏠  SYSTEM_HOSTNAME: %s\n" $hostname) -}}
-# {{- writeToStdout (printf "🔬  DOTFILES_VERBOSE: %t\n" ($verbose | not | not)) -}}
-# {{- writeToStdout "---\n" -}}
 
 # {{- if $interactive -}}
 # {{-   $question := "❔ Do you want to upgrade packages if needed" -}}
