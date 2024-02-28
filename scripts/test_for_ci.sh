@@ -118,9 +118,9 @@ run_test() {
   local -r os="$1"
   local -r setup_script="$2"
 
-  cmd time docker run --rm --init --interactive --user vscode \
+  cmd time docker run --rm --init --interactive --user root \
     --env TERM --env COLORTERM \
-    --volume "${dotfiles_root}:/home/vscode/.dotfiles:ro" \
+    --volume "${rootfiles_root}:/root/.rootfiles:ro" \
     "mcr.microsoft.com/devcontainers/base:${os}" \
     bash <<EOF
 set -euxo pipefail
@@ -146,7 +146,7 @@ EOF
 set -euo pipefail
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-dotfiles_root="$(realpath "${script_dir}/..")"
+rootfiles_root="$(realpath "${script_dir}/..")"
 
 debug="${_arg_debug}"
 variants=("${_arg_variant[@]}")
