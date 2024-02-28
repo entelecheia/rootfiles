@@ -232,7 +232,7 @@
 # {{-     $vlan_address = $answer -}}
 # {{-   end -}}
 # {{-   writeToStdout (printf "✅  VLAN interface '%s' configured with address '%s'\n" $vlan_interface_name $vlan_address) -}}
-
+# {{- end -}}
 
 # {{- /* This retains the value passed with --source on chezmoi init, which is used in the ../install.sh script */ -}} #
 sourceDir: "{{ .chezmoi.workingTree }}"
