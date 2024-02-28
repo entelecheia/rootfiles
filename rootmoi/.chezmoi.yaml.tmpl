@@ -199,6 +199,18 @@
 # {{-   writeToStdout "❎  Dataspace not symlinked\n" -}}
 # {{- end -}}
 
+# {{- if $interactive -}}
+# {{-   $question := "❔ Where do you want to put data of the docker images" -}}
+# {{-   $answer := "" -}}
+# {{-   if $docker_image_dir -}}
+# {{-     $answer = promptString $question $docker_image_dir -}}
+# {{-   else -}}
+# {{-     $answer = promptString $question -}}
+# {{-   end -}}
+# {{-   $docker_image_dir = $answer -}}
+# {{- end -}}
+# {{- writeToStdout (printf "✅  Data location for docker images set as '%s'\n" $docker_image_dir) -}}
+
 # {{- if $use_cloudflared -}}
 # {{-   writeToStdout "✅  cloudflared enabled\n" -}}
 # {{- else -}}
