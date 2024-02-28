@@ -151,7 +151,6 @@
 
 # {{- $workspace_root = joinPath $workspace_location $workspace_name -}}
 # {{-   writeToStdout (printf "✅  Worksapce root set as '%s'\n" $workspace_root) -}}
-# {{- $container_dir := joinPath $workspace_home "containers" -}}
 
 # {{- if $interactive -}}
 # {{-   $question := "❔ Do you want to symlink workspace to colab default google drive directory to maintain persistence across sessions" -}}
@@ -296,15 +295,7 @@ data:
     user: {{ $pkgs_user }}
   workspace:
     name: {{ $workspace_name | quote }}
-    location: {{ $workspace_location | quote }}
     root: {{ $workspace_root | quote }}
-    home: {{ $workspace_home | quote }}
     move_existing: true
     symlink_to_home: {{ $symlink_to_home }}
     symlink_colab_workspace: {{ $symlink_colab_workspace }}
-    colab_drive: "/content/drive/MyDrive"
-    project_dir: {{ $project_dir | quote }}
-    reference_dir: {{ $reference_dir | quote }}
-    container_dir: {{ $container_dir | quote }}
-    model_dir: {{ $model_dir | quote }}
-    dataset_dir: {{ $dataset_dir | quote }}
