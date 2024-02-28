@@ -45,16 +45,15 @@
 # {{-   $non_root_user = .non_root_user -}}
 # {{- end -}}
 
-# {{- $dockerfiles_share_dir := joinPath .chezmoi.homeDir ".local/share/dockerfiles" -}}
 
-# {{- $workspace_location := "" -}}
-# {{- $workspace_name := "workspace" -}}
-# {{- $workspace_root := joinPath $workspace_location $workspace_name -}}
-# {{- $symlink_colab_workspace := false -}}
-# {{-   if and (hasKey . "workspace") (hasKey .workspace "symlink_colab_workspace") -}}
-# {{-     $symlink_colab_workspace = .workspace.symlink_colab_workspace -}}
-# {{-   end -}}
-# {{- $symlink_to_home := true -}}
+# {{- $dataspace_location := "/raid/" -}}
+# {{- $dataspace_name := "data" -}}
+# {{- $datapace_root := joinPath $dataspace_location $dataspace_name -}}
+# {{- $symlink_dataspace := false -}}
+# {{- if and (hasKey . "dataspace") (hasKey .dataspace "symlink_dataspace") -}}
+# {{-   $symlink_dataspace = .dataspace.symlink_dataspace -}}
+# {{- end -}}
+# {{- $docker_image_dir := joinPath .chezmoi.homeDir ".local/share/dockerfiles" -}}
 
 # {{- $use_ngrok := false -}}
 # {{- if eq (env "DOTFILES_USE_NGROK") "true" "True" "TRUE" "1" -}}
@@ -165,28 +164,28 @@
 # {{- writeToStdout (printf "✅  Non root username set as '%s'\n" $non_root_user) -}}
 
 # {{- if $interactive -}}
-# {{-   $question := "❔ Where do you want to put your workspace" -}}
+# {{-   $question := "❔ Where do you want to put data of the users" -}}
 # {{-   $answer := "" -}}
-# {{-   if $workspace_location -}}
-# {{-     $answer = promptString $question $workspace_location -}}
+# {{-   if $dataspace_location -}}
+# {{-     $answer = promptString $question $dataspace_location -}}
 # {{-   else -}}
 # {{-     $answer = promptString $question -}}
 # {{-   end -}}
-# {{-   $workspace_location = $answer -}}
+# {{-   $dataspace_location = $answer -}}
 # {{- end -}}
-# {{- writeToStdout (printf "✅  Worksapce location set as '%s'\n" $workspace_location) -}}
+# {{- writeToStdout (printf "✅  Data location set as '%s'\n" $dataspace_location) -}}
 
-# {{- $workspace_root = joinPath $workspace_location $workspace_name -}}
-# {{-   writeToStdout (printf "✅  Worksapce root set as '%s'\n" $workspace_root) -}}
+# {{- $datapace_root = joinPath $dataspace_location $dataspace_name -}}
+# {{-   writeToStdout (printf "✅  Dataspace root set as '%s'\n" $datapace_root) -}}
 
 # {{- if $interactive -}}
-# {{-   $question := "❔ Do you want to symlink workspace to colab default google drive directory to maintain persistence across sessions" -}}
-# {{-   $symlink_colab_workspace = promptBool $question $symlink_colab_workspace -}}
+# {{-   $question := "❔ Do you want to symlink dataspace to the root" -}}
+# {{-   $symlink_dataspace = promptBool $question $symlink_dataspace -}}
 # {{- end -}}
-# {{- if $symlink_colab_workspace -}}
-# {{-   writeToStdout "✅  Colab workspace symlinked to workspace root\n" -}}
+# {{- if $symlink_dataspace -}}
+# {{-   writeToStdout "✅  Dataspace symlinked to the root\n" -}}
 # {{- else -}}
-# {{-   writeToStdout "❎  Colab workspace not symlinked\n" -}}
+# {{-   writeToStdout "❎  Dataspace not symlinked\n" -}}
 # {{- end -}}
 
 # {{- if $use_cloudflared -}}
@@ -293,8 +292,6 @@ data:
     cpu:
       cores: {{ $cpuCores }}
       threads: {{ $cpuThreads }}
-  docker:
-    share_dir: {{ $dockerfiles_share_dir | quote }}
   ngrok:
     enabled: {{ $use_ngrok }}
     authtoken: {{ $ngrok_authtoken | quote }}
@@ -310,9 +307,10 @@ data:
     credentials_file: {{ $cloudflared_credentials_file | quote }}
   install_packages:
     user: {{ $pkgs_user }}
-  workspace:
-    name: {{ $workspace_name | quote }}
-    root: {{ $workspace_root | quote }}
+  dataspace:
+    name: {{ $dataspace_name | quote }}
+    root: {{ $datapace_root | quote }}
     move_existing: true
     symlink_to_home: {{ $symlink_to_home }}
-    symlink_colab_workspace: {{ $symlink_colab_workspace }}
+    symlink_dataspace: {{ $symlink_dataspace }}
+    docker_image_dir: {{ $docker_image_dir | quote }}
