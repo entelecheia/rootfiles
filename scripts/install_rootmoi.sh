@@ -66,6 +66,6 @@ if [ -n "${DOTFILES_DEBUG-}" ]; then
   set -- "$@" --debug
 fi
 
-log_task "Running 'rootmoi $*'"
+log_task "Running '${chezmoi} $*'"
 # replace current process with chezmoi
 exec "${chezmoi}" "$@"
