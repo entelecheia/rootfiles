@@ -200,23 +200,6 @@
 # {{-   $pkgs_user = printf "%s cloudflared" $pkgs_user -}}
 # {{- end -}}
 
-# {{- if $interactive -}}
-# {{-   $question := "❔ What are the additional packages to install (input as space separated list, ex: git curl)" -}}
-# {{-   $answer := "" -}}
-# {{-   if $pkgs_user -}}
-# {{-     $answer = promptString $question $pkgs_user -}}
-# {{-   else -}}
-# {{-     $answer = promptString $question -}}
-# {{-   end -}}
-# {{-   $pkgs_user = $answer -}}
-# {{- end -}}
-# {{- $pkgs_user = trim $pkgs_user -}}
-# {{- if $pkgs_user -}}
-# {{-   writeToStdout (printf "✅  Additional packages to install set as \n    '%s'\n" $pkgs_user) -}}
-# {{- else -}}
-# {{-   writeToStdout "❎  Additional packages to install not set\n" -}}
-# {{- end -}}
-
 # {{- /* This retains the value passed with --source on chezmoi init, which is used in the ../install.sh script */ -}} #
 sourceDir: "{{ .chezmoi.workingTree }}"
 
