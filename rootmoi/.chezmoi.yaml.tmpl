@@ -68,28 +68,18 @@
 # {{-   $docker_image_dir = .dataspace.docker_image_dir -}}
 # {{- end -}}
 
-# {{- $use_cloudflared := false -}}
-# {{- if eq (env "DOTFILES_USE_CLOUDFLARED") "true" "True" "TRUE" "1" -}}
-# {{-   $use_cloudflared = true -}}
+# {{- $create_vlan_interface := false -}}
+# {{- if and (hasKey . "network") (hasKey .network "create_vlan_interface") -}}
+# {{-   $create_vlan_interface = .network.create_vlan_interface -}}
 # {{- end -}}
-# {{- if and (hasKey . "cloudflared") (hasKey .cloudflared "enabled") -}}
-# {{-   $use_cloudflared = .cloudflared.enabled -}}
+# {{- $vlan_interface_name := "vlan0" -}}
+# {{- if and (hasKey . "network") (hasKey .dataspace "vlan_interface_name") -}}
+# {{-   $vlan_interface_name = .network.vlan_interface_name -}}
 # {{- end -}}
-# {{- $cloudflared_tunnel_uuid := or (env "CLOUDFLARED_TUNNEL_UUID") "" -}}
-# {{- if and (hasKey . "cloudflared") (hasKey .cloudflared "tunnel_uuid") -}}
-# {{-   $cloudflared_tunnel_uuid = .cloudflared.tunnel_uuid -}}
+# {{- $vlan_address := "172.16.229.32/24" -}}
+# {{- if and (hasKey . "network") (hasKey .network "vlan_address") -}}
+# {{-   $vlan_address = .network.vlan_address -}}
 # {{- end -}}
-# {{- $cloudflared_tunnel_name := or (env "CLOUDFLARED_TUNNEL_NAME") "" -}}
-# {{- if and (hasKey . "cloudflared") (hasKey .cloudflared "tunnel_name") -}}
-# {{-   $cloudflared_tunnel_name = .cloudflared.tunnel_name -}}
-# {{- end -}}
-# {{- $cloudflared_tunnel_hostname := or (env "CLOUDFLARED_TUNNEL_HOSTNAME") "" -}}
-# {{- if and (hasKey . "cloudflared") (hasKey .cloudflared "tunnel_hostname") -}}
-# {{-   $cloudflared_tunnel_hostname = .cloudflared.tunnel_hostname -}}
-# {{- end -}}
-# {{- $cloudflared_config_file := or (env "CLOUDFLARED_CONFIG") (joinPath .chezmoi.homeDir ".cloudflared/config.yml") -}}
-# {{- $cloudflared_config_template := (joinPath .chezmoi.homeDir ".cloudflared/config.tmp") -}}
-# {{- $cloudflared_credentials_file := "" -}}
 
 # {{- $dotfiles_version := or (env "DOTFILES_VERSION") "N/A" -}}
 # {{- writeToStdout "---\n" -}}
@@ -211,16 +201,38 @@
 # {{- end -}}
 # {{- writeToStdout (printf "✅  Data location for docker images set as '%s'\n" $docker_image_dir) -}}
 
-# {{- if $use_cloudflared -}}
-# {{-   writeToStdout "✅  cloudflared enabled\n" -}}
+# {{- if $interactive -}}
+# {{-   $question := "❔ Do you want to craete a VLAN interface" -}}
+# {{-   $create_vlan_interface = promptBool $question $create_vlan_interface -}}
+# {{- end -}}
+# {{- if $create_vlan_interface -}}
+# {{-   writeToStdout "✅  VLAN interface will be created\n" -}}
 # {{- else -}}
-# {{-   writeToStdout "❎  cloudflared disabled\n" -}}
+# {{-   writeToStdout "❎  VLAN interface will not be created\n" -}}
 # {{- end -}}
+# {{- if and $interactive $create_vlan_interface -}}
+# {{-   $question := "❔ Enter VLAN interface name" -}}
+# {{-   $answer := "" -}}
+# {{-   if $vlan_interface_name -}}
+# {{-     $answer = promptString $question $vlan_interface_name -}}
+# {{-   else -}}
+# {{-     $answer = promptString $question -}}
+# {{-   end -}}
+# {{-   if $answer -}}
+# {{-     $vlan_interface_name = $answer -}}
+# {{-   end -}}
+# {{-   $question := "❔ Enter VLAN network address" -}}
+# {{-   $answer := "" -}}
+# {{-   if $vlan_address -}}
+# {{-     $answer = promptString $question $vlan_address -}}
+# {{-   else -}}
+# {{-     $answer = promptString $question -}}
+# {{-   end -}}
+# {{-   if $answer -}}
+# {{-     $vlan_address = $answer -}}
+# {{-   end -}}
+# {{-   writeToStdout (printf "✅  VLAN interface '%s' configured with address '%s'\n" $vlan_interface_name $vlan_address) -}}
 
-# {{- $pkgs_user := "" -}}
-# {{- if $use_cloudflared -}}
-# {{-   $pkgs_user = printf "%s cloudflared" $pkgs_user -}}
-# {{- end -}}
 
 # {{- /* This retains the value passed with --source on chezmoi init, which is used in the ../install.sh script */ -}} #
 sourceDir: "{{ .chezmoi.workingTree }}"
@@ -272,3 +284,7 @@ data:
     symlink_dataspace_dir: "/data"
     symlink_dataspace: {{ $symlink_dataspace }}
     docker_image_dir: {{ $docker_image_dir | quote }}
+  network:
+    create_vlan_interface: {{ $create_vlan_interface }}
+    vlan_interface_name: {{ $vlan_interface_name | quote }}
+    vlan_address: {{ $vlan_address | quote }}
