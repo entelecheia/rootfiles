@@ -76,7 +76,7 @@
 # {{- if and (hasKey . "network") (hasKey .dataspace "vlan_interface_name") -}}
 # {{-   $vlan_interface_name = .network.vlan_interface_name -}}
 # {{- end -}}
-# {{- $vlan_address := "172.16.229.32/24" -}}
+# {{- $vlan_address := "172.16.229.32/32" -}}
 # {{- if and (hasKey . "network") (hasKey .network "vlan_address") -}}
 # {{-   $vlan_address = .network.vlan_address -}}
 # {{- end -}}
