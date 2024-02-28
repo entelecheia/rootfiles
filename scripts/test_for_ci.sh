@@ -137,7 +137,7 @@ export DOTFILES_TEST=true
 echo 'Defaults env_keep += "DOTFILES_TEST"' | sudo tee /etc/sudoers.d/env_keep
 sudo usermod -aG sudo vscode
 
-~/.dotfiles/scripts/install_rootmoi.sh
+~/.rootfiles/scripts/install_rootmoi.sh
 
 ~/.local/bin/chezmoi data
 EOF
