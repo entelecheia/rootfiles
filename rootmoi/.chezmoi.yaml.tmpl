@@ -266,8 +266,6 @@ data:
     cpu:
       cores: {{ $cpuCores }}
       threads: {{ $cpuThreads }}
-  install_packages:
-    user: {{ $pkgs_user }}
   dataspace:
     name: {{ $dataspace_name | quote }}
     location: {{ $dataspace_location | quote }}
