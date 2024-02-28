@@ -2,7 +2,7 @@
 # {{ template "scripts-library" }}
 log_task "Rootmoi: 10. Configuring user"
 
-# create user if not exists
+# create non root user if not exists
 if ! getent passwd '{{ .non_root_user }}' >/dev/null; then
   log_task "Creating user '{{ .non_root_user }}'"
   c useradd -m '{{ .non_root_user }}'
