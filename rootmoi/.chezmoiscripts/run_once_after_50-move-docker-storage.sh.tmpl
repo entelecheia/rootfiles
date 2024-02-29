@@ -3,12 +3,13 @@
 log_task "Rootmoi: 50. Moving docker image storage"
 
 # daemon.json hash: {{ include "/etc/docker/daemon.json" | sha256sum }}
+SYMLINK_DOCKER_IMAGE_DIR=${DOCKER_IMAGE_DIR:-"{{ .dataspace.symlink_docker_image_dir }}"}
 DOCKER_IMAGE_DIR=${DOCKER_IMAGE_DIR:-"{{ .dataspace.docker_image_dir }}"}
 DEFAULT_DOCKER_IMAGE_DIR=/var/lib/docker
 log_task "Stop Docker daemon"
 c systemctl stop docker
 
-if [[ ! -L "${DEFAULT_DOCKER_IMAGE_DIR}" ]]; then
+if [[ "${SYMLINK_DOCKER_IMAGE_DIR}" == "true" ]] && [[ ! -d "${DOCKER_IMAGE_DIR}" && ! -L "${DEFAULT_DOCKER_IMAGE_DIR}" ]]; then
     log_task "Backing up existing Docker directory (${DEFAULT_DOCKER_IMAGE_DIR})"
     c cp -r /var/lib/docker /var/lib/docker.bak
 
