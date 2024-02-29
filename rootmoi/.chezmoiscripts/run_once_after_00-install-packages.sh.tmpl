@@ -99,6 +99,8 @@ fi
 
 apt_command=(apt-get)
 if [[ ${#wanted_packages[@]} -gt 0 ]]; then
+  log_task "Updating APT package lists"
+  c "${apt_command[@]}" update"
   log_task "Installing the packages with APT: ${wanted_packages[*]}"
   c "${apt_command[@]}" install --yes -qq -o=Dpkg::Use-Pty=0 --no-install-recommends "${wanted_packages[@]}"
 else
