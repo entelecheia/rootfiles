@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "rootfiles"
-version = "0.0.0"
+version = "0.1.0"
 description = "Effortlessly configure and replicate consistent root system environments for development efficiency."
 authors = ["Young Joon Lee <entelecheia@hotmail.com>"]
 license = "MIT"
