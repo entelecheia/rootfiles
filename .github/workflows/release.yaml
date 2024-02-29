@@ -4,11 +4,11 @@ name: semantic-release
 on:
   workflow_call:
   workflow_dispatch:
-  # workflow_run:
-  #   workflows: ["lint & test"]
-  #   branches: [main]
-  #   types:
-  #     - completed
+  workflow_run:
+    workflows: ["lint & test"]
+    branches: [main, release]
+    types:
+      - completed
 
 permissions:
   contents: write
