@@ -67,6 +67,10 @@
 # {{- if and (hasKey . "dataspace") (hasKey .dataspace "docker_image_dir") -}}
 # {{-   $docker_image_dir = .dataspace.docker_image_dir -}}
 # {{- end -}}
+# {{- $symlink_docker_image_dir := false -}}
+# {{- if and (hasKey . "dataspace") (hasKey .dataspace "symlink_docker_image_dir") -}}
+# {{-   $symlink_docker_image_dir = .dataspace.symlink_docker_image_dir -}}
+# {{- end -}}
 
 # {{- $create_vlan_interface := false -}}
 # {{- if and (hasKey . "network") (hasKey .network "create_vlan_interface") -}}
@@ -183,6 +187,10 @@
 # {{- end -}}
 
 # {{- if $interactive -}}
+# {{-   $question := "❔ Do you want to put the docker image directory to other location and symlink it" -}}
+# {{-   $symlink_docker_image_dir = promptBool $question $symlink_docker_image_dir -}}
+# {{- end -}}
+# {{- if and $interactive $symlink_docker_image_dir -}}
 # {{-   $question := "❔ Where do you want to put data of the docker images" -}}
 # {{-   $answer := "" -}}
 # {{-   if $docker_image_dir -}}
@@ -192,7 +200,12 @@
 # {{-   end -}}
 # {{-   $docker_image_dir = $answer -}}
 # {{- end -}}
-# {{- writeToStdout (printf "✅  Data location for docker images set as '%s'\n" $docker_image_dir) -}}
+# {{- if $symlink_docker_image_dir -}}
+# {{-   writeToStdout "✅  Data location for docker images symlinked\n" -}}
+# {{-   writeToStdout (printf "✅  Data location for docker images set as '%s'\n" $docker_image_dir) -}}
+# {{- else -}}
+# {{-   writeToStdout "❎  Data location for docker images not symlinked\n" -}}
+# {{- end -}}
 
 # {{- if $interactive -}}
 # {{-   $question := "❔ Do you want to craete a VLAN interface" -}}
@@ -267,6 +280,7 @@ data:
     symlink_dataspace_dir: "/data"
     symlink_dataspace: {{ $symlink_dataspace }}
     docker_image_dir: {{ $docker_image_dir | quote }}
+    symlink_docker_image_dir: {{ $symlink_docker_image_dir }}
   network:
     create_vlan_interface: {{ $create_vlan_interface }}
     vlan_interface_name: {{ $vlan_interface_name | quote }}
