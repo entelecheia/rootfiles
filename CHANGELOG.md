@@ -1,5 +1,13 @@
 <!--next-version-placeholder-->
 
+## v0.2.0 (2024-03-16)
+
+### Feature
+
+* **create-user:** Add user creation script ([`c5cdfd9`](https://github.com/entelecheia/rootfiles/commit/c5cdfd9306b7add25e702cb82e4254108a869d4b))
+* **script:** Add script to install Python and manage versions ([`f3ad3be`](https://github.com/entelecheia/rootfiles/commit/f3ad3be110b21fa3fcb4ffb44eeed477c689877e))
+* **rootmoi:** Add python installation command to run_once_before00-install-prerequisites ([`e10fce8`](https://github.com/entelecheia/rootfiles/commit/e10fce89ecdc05d1ad18346d42ad8370a383c875))
+
 ## v0.1.0 (2024-02-29)
 
 ### Feature
