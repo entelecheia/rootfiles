@@ -173,8 +173,19 @@
 # {{- end -}}
 # {{- writeToStdout (printf "✅  Data location set as '%s'\n" $dataspace_location) -}}
 
+# {{- if $interactive -}}
+# {{-   $question := "❔ What is the name of the user dataspace directory" -}}
+# {{-   $answer := "" -}}
+# {{-   if $dataspace_name -}}
+# {{-     $answer = promptString $question $dataspace_name -}}
+# {{-   else -}}
+# {{-     $answer = promptString $question -}}
+# {{-   end -}}
+# {{-   $dataspace_name = $answer -}}
+# {{- end -}}
+# {{- writeToStdout (printf "✅  Dataspace name set as '%s'\n" $dataspace_name) -}}
 # {{- $datapace_root = joinPath $dataspace_location $dataspace_name -}}
-# {{-   writeToStdout (printf "✅  Dataspace root set as '%s'\n" $datapace_root) -}}
+# {{- writeToStdout (printf "✅  Dataspace root set as '%s'\n" $datapace_root) -}}
 
 # {{- if $interactive -}}
 # {{-   $question := "❔ Do you want to symlink dataspace to the root" -}}
