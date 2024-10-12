@@ -4,8 +4,16 @@
 create_user() {
     local username=$1
     local password=$2
+    local home_directory=$3
 
-    sudo useradd -m -s /bin/bash "$username"
+    if [[ -z "$home_directory" || "$home_directory" == "/home" ]]; then
+        sudo useradd -m -s /bin/bash "$username"
+    else
+        sudo useradd -m -d "$home_directory/$username" -s /bin/bash "$username"
+
+        # Create symlink for home directory
+        sudo ln -s "$home_directory/$username" "/home/$username"
+    fi
     echo "$username:$password" | sudo chpasswd
 }
 
@@ -28,7 +36,8 @@ create_data_directory() {
     sudo mkdir -p "$data_directory"
     sudo chown "$username:$username" "$data_directory"
 
-    local home_directory="/home/$username"
+    local home_directory
+    home_directory=$(getent passwd "$username" | cut -d: -f6)
     ln -s "$data_directory" "$home_directory/data"
 }
 
@@ -42,9 +51,11 @@ read -rp "Enter the username: " username
 read -s -rp "Enter the password: " password
 echo
 read -rp "Enter the groups (separated by space): " -a groups
+echo
+read -rp "Enter the home directory location (if different from /home): " home_location
 
 echo "Creating user $username..."
-create_user "$username" "$password"
+create_user "$username" "$password" "$home_location"
 
 echo "Adding user $username to groups: ${groups[*]}"
 add_user_to_groups "$username" "${groups[@]}"
