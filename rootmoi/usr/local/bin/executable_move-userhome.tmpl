@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Function to move home directory and create symlink
+move_home_directory() {
+    local username=$1
+    local new_location=$2
+
+    if [[ -z "$new_location" || "$new_location" == "/home" ]]; then
+        echo "New home directory location is empty or the same as the default. Home directory will not be moved."
+        return
+    fi
+
+    # Create the new home directory location
+    sudo mkdir -p "$new_location/$username"
+
+    # Copy contents from current home directory to new location
+    sudo rsync -av /home/"$username"/ "$new_location/$username/"
+
+    # Rename old home directory as backup
+    sudo mv /home/"$username" /home/"$username".bak
+
+    # Create symbolic link from old location to new
+    sudo ln -s "$new_location/$username" /home/"$username"
+
+    # Update user's home directory in system
+    sudo usermod -d "$new_location/$username" "$username"
+}
+
+# Main script
+if [[ $EUID -ne 0 ]]; then
+    echo "This script must be run as root or with sudo."
+    exit 1
+fi
+
+read -rp "Enter the username: " username
+echo
+read -rp "Enter the new home directory location: " new_location
+
+move_home_directory "$username" "$new_location"
+
+# Success message
+echo "Home directory for user $username moved to $new_location."
