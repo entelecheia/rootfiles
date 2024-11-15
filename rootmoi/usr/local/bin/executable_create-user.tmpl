@@ -7,9 +7,9 @@ create_user() {
     local home_directory=$3
 
     if [[ -z "$home_directory" || "$home_directory" == "/home" ]]; then
-        sudo useradd -m -s /bin/bash "$username"
+        sudo useradd --force-badname -m -s /bin/bash "$username"
     else
-        sudo useradd -m -d "$home_directory/$username" -s /bin/bash "$username"
+        sudo useradd --force-badname -m -d "$home_directory/$username" -s /bin/bash "$username"
 
         # Create symlink for home directory
         sudo ln -s "$home_directory/$username" "/home/$username"
