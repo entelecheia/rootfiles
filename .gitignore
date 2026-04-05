@@ -27,3 +27,6 @@ coverage.xml
 htmlcov/
 pytest-coverage.*
 
+
+.omc/
+.omx/
