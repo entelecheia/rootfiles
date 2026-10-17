@@ -1,5 +1,7 @@
 # rootfiles
 
+> **Archived.** This is the v1 rootfiles. Its successor is [STAIxBWLB/rootfiles](https://github.com/STAIxBWLB/rootfiles) (formerly `entelecheia/rootfiles-v2`).
+
 [![version-image]][release-url]
 [![release-date-image]][release-url]
 [![test-image]][test-url]
